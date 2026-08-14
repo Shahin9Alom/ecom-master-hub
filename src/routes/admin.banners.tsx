@@ -14,7 +14,7 @@ export const Route = createFileRoute("/admin/banners")({ component: AdminBanners
 
 function AdminBanners() {
   const qc = useQueryClient();
-  const [form, setForm] = useState({ title: "", subtitle: "", image_url: "", link_url: "", sort_order: "0" });
+  const [form, setForm] = useState({ title: "", subtitle: "", image_url: "", button_text: "", button_link: "", sort_order: "0" });
 
   const banners = useQuery({
     queryKey: ["admin-banners"],
@@ -34,16 +34,17 @@ function AdminBanners() {
     mutationFn: async () => {
       if (!form.image_url.trim()) throw new Error("Banner image URL is required");
       const { error } = await supabase.from("banners").insert({
-        title: form.title || null,
+        title: form.title.trim() || "Untitled banner",
         subtitle: form.subtitle || null,
         image_url: form.image_url.trim(),
-        link_url: form.link_url || null,
+        button_text: form.button_text || null,
+        button_link: form.button_link || null,
         sort_order: Number(form.sort_order) || 0,
       });
       if (error) throw error;
     },
     onSuccess: () => {
-      setForm({ title: "", subtitle: "", image_url: "", link_url: "", sort_order: "0" });
+      setForm({ title: "", subtitle: "", image_url: "", button_text: "", button_link: "", sort_order: "0" });
       invalidate();
       toast.success("Banner added");
     },
@@ -75,10 +76,10 @@ function AdminBanners() {
         <div className="space-y-3">
           {(banners.data ?? []).map((b) => (
             <div key={b.id} className="flex flex-wrap items-center gap-4 rounded-xl border bg-card p-3">
-              <img src={b.image_url} alt={b.title ?? "Banner"} className="h-16 w-28 rounded object-cover" />
+              <img src={b.image_url ?? ""} alt={b.title} className="h-16 w-28 rounded object-cover" />
               <div className="min-w-0 flex-1">
-                <p className="truncate font-medium">{b.title ?? "Untitled banner"}</p>
-                <p className="truncate text-xs text-muted-foreground">{b.link_url ?? "No link"}</p>
+                <p className="truncate font-medium">{b.title}</p>
+                <p className="truncate text-xs text-muted-foreground">{b.button_link ?? "No link"}</p>
               </div>
               <Input
                 type="number"
@@ -105,7 +106,8 @@ function AdminBanners() {
                 ["title", "Title"],
                 ["subtitle", "Subtitle"],
                 ["image_url", "Image URL"],
-                ["link_url", "Link URL"],
+                ["button_text", "Button text"],
+                ["button_link", "Button link"],
                 ["sort_order", "Display order"],
               ] as const
             ).map(([k, label]) => (

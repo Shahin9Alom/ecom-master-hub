@@ -30,7 +30,7 @@ function AdminReviews() {
 
   const approve = useMutation({
     mutationFn: async (id: string) => {
-      const { error } = await supabase.from("reviews").update({ is_approved: true }).eq("id", id);
+      const { error } = await supabase.from("reviews").update({ status: "approved" }).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
@@ -58,12 +58,12 @@ function AdminReviews() {
             <div className="flex flex-wrap items-center gap-3">
               <Rating value={r.rating} />
               <span className="font-medium">{(r.products as { name: string } | null)?.name ?? "Product"}</span>
-              {r.is_approved ? <Badge variant="secondary">Approved</Badge> : <Badge>Pending</Badge>}
+              {r.status === "approved" ? <Badge variant="secondary">Approved</Badge> : <Badge>Pending</Badge>}
               <span className="ml-auto text-xs text-muted-foreground">{formatDate(r.created_at)}</span>
             </div>
             <p className="mt-2 text-sm text-muted-foreground">{r.comment}</p>
             <div className="mt-3 flex gap-2">
-              {!r.is_approved && (
+              {r.status !== "approved" && (
                 <Button size="sm" onClick={() => approve.mutate(r.id)}>
                   <Check className="mr-1 h-4 w-4" /> Approve
                 </Button>
