@@ -77,12 +77,12 @@ export function Footer() {
           <h3 className="text-sm font-semibold uppercase tracking-wide">Company</h3>
           <ul className="mt-3 space-y-2 text-sm opacity-80">
             <li>
-              <Link to="/pages/about" className="hover:underline">
+              <Link to="/pages/$slug" params={{ slug: "about" }} className="hover:underline">
                 About us
               </Link>
             </li>
             <li>
-              <Link to="/pages/contact" className="hover:underline">
+              <Link to="/pages/$slug" params={{ slug: "contact" }} className="hover:underline">
                 Contact
               </Link>
             </li>

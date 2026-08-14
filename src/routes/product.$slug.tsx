@@ -341,7 +341,7 @@ function ProductPage() {
                 </div>
               ) : (
                 <p className="mt-2 text-sm text-muted-foreground">
-                  <Link to="/auth" className="text-primary underline">
+                  <Link to="/auth" search={{}} className="text-primary underline">
                     Sign in
                   </Link>{" "}
                   to write a review.

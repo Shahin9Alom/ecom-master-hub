@@ -35,7 +35,7 @@ function WishlistPage() {
             <Heart className="h-10 w-10 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">Sign in to save products to your wishlist.</p>
             <Button asChild>
-              <Link to="/auth">Sign in</Link>
+              <Link to="/auth" search={{}}>Sign in</Link>
             </Button>
           </div>
         ) : list.isLoading ? (

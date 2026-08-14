@@ -14,8 +14,9 @@ import { useAuth } from "@/lib/auth";
 import { formatDate, money, statusLabel } from "@/lib/format";
 
 export const Route = createFileRoute("/account")({
-  validateSearch: (s: Record<string, unknown>) =>
-    typeof s["tab"] === "string" ? { tab: s["tab"] as string } : {},
+  validateSearch: (s: Record<string, unknown>): { tab?: string | undefined } => ({
+    tab: typeof s["tab"] === "string" ? (s["tab"] as string) : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "My Account — Shahin Mart" },

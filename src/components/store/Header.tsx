@@ -21,8 +21,11 @@ const NAV = [
   { to: "/", label: "Home" },
   { to: "/shop", label: "Shop" },
   { to: "/track", label: "Track order" },
-  { to: "/pages/about", label: "About" },
-  { to: "/pages/contact", label: "Contact" },
+] as const;
+
+const INFO_NAV = [
+  { slug: "about", label: "About" },
+  { slug: "contact", label: "Contact" },
 ] as const;
 
 export function Header() {
@@ -76,6 +79,17 @@ export function Header() {
                   {n.label}
                 </Link>
               ))}
+              {INFO_NAV.map((n) => (
+                <Link
+                  key={n.slug}
+                  to="/pages/$slug"
+                  params={{ slug: n.slug }}
+                  onClick={() => setOpen(false)}
+                  className="rounded-md px-3 py-2 text-sm font-medium hover:bg-secondary"
+                >
+                  {n.label}
+                </Link>
+              ))}
               <div className="mt-3 px-3 text-xs font-semibold uppercase text-muted-foreground">Categories</div>
               {categories
                 ?.filter((c) => c.is_active)
@@ -106,6 +120,16 @@ export function Header() {
               to={n.to}
               className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
               activeProps={{ className: "text-foreground" }}
+            >
+              {n.label}
+            </Link>
+          ))}
+          {INFO_NAV.map((n) => (
+            <Link
+              key={n.slug}
+              to="/pages/$slug"
+              params={{ slug: n.slug }}
+              className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
             >
               {n.label}
             </Link>
@@ -175,7 +199,7 @@ export function Header() {
             </DropdownMenu>
           ) : (
             <Button asChild size="sm" className="ml-1">
-              <Link to="/auth">Sign in</Link>
+              <Link to="/auth" search={{}}>Sign in</Link>
             </Button>
           )}
         </div>
