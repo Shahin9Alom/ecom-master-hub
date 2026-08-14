@@ -41,8 +41,8 @@ function AdminCoupons() {
       if (!form.code.trim()) throw new Error("Coupon code is required");
       const { error } = await supabase.from("coupons").insert({
         code: form.code.trim().toUpperCase(),
-        discount_type: form.discount_type,
-        discount_value: Number(form.discount_value) || 0,
+        type: form.discount_type,
+        value: Number(form.discount_value) || 0,
         min_order: Number(form.min_order) || 0,
         usage_limit: form.usage_limit === "" ? null : Number(form.usage_limit),
         expires_at: form.expires_at === "" ? null : new Date(form.expires_at).toISOString(),
@@ -96,7 +96,7 @@ function AdminCoupons() {
                 <tr key={c.id} className="border-b last:border-0">
                   <td className="p-3 font-medium">{c.code}</td>
                   <td className="p-3">
-                    {c.discount_type === "percent" ? `${c.discount_value}%` : money(c.discount_value)}
+                    {c.type === "percent" ? `${c.value}%` : money(c.value)}
                   </td>
                   <td className="p-3">{money(c.min_order)}</td>
                   <td className="p-3">
