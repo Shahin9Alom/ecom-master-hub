@@ -70,7 +70,7 @@ function AdminCategories() {
 
   const patch = useMutation({
     mutationFn: async ({ id, data }: { id: string; data: Record<string, unknown> }) => {
-      const { error } = await supabase.from("categories").update(data).eq("id", id);
+      const { error } = await supabase.from("categories").update(data as never).eq("id", id);
       if (error) throw error;
     },
     onSuccess: invalidate,

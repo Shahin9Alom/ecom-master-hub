@@ -48,7 +48,7 @@ function AdminOrderDetail() {
 
   const patch = useMutation({
     mutationFn: async (data: Record<string, unknown>) => {
-      const { error } = await supabase.from("orders").update(data).eq("id", id);
+      const { error } = await supabase.from("orders").update(data as never).eq("id", id);
       if (error) throw error;
     },
     onSuccess: () => {
