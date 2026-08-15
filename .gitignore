@@ -33,3 +33,8 @@ dist-ssr
 
 # Netlify
 .netlify/
+
+# Environment variables (contains secrets — configure these in Netlify dashboard instead)
+.env
+.env.local
+.env.*.local
